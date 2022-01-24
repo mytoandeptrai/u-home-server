@@ -12,6 +12,14 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getUsers: async (req, res) => {
+    try {
+      const users = await Users.find().sort("-createdAt");
+      res.json({ users });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
   editUser: async (req, res) => {
     try {
       const { avatar, username, email, _id } = req.body;
