@@ -3,7 +3,7 @@ const Issues = require("../models/issueModel");
 const issueCtrl = {
   getIssue: async (req, res) => {
     try {
-      const Issue = await Issues.findById(req.query.idIssue);
+      const Issue = await Issues.findById(req.body.idIssue);
 
       if (!Issue) return res.status(400).json({ msg: "Issue does not exist." });
 

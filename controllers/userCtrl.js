@@ -3,7 +3,7 @@ const Users = require("../models/userModel");
 const userCtrl = {
   getUser: async (req, res) => {
     try {
-      const user = await Users.findById(req.query.idUser);
+      const user = await Users.findById(req.body.idUser);
 
       if (!user) return res.status(400).json({ msg: "User does not exist." });
 

@@ -100,7 +100,7 @@ const authCtrl = {
   },
   forgotPassword: async (req, res) => {
     try {
-      const user = await Users.findOne({ email: req.query.email });
+      const user = await Users.findOne({ email: req.body.email });
 
       if (!user) {
         return res.status(400).json({ msg: "This email does not exist." });
@@ -122,7 +122,7 @@ const authCtrl = {
       <a href="https://www.facebook.com/bito.hihi/" style="text-decoration: none;padding: 10px 20px; display: inline-block">https://www.facebook.com/bito.hihi/</a>
       </div>`;
 
-      await mailer.sendMail(req.query.email, "Reset your password", htmlResult);
+      await mailer.sendMail(req.body.email, "Reset your password", htmlResult);
 
       res.json({ msg: "Re-send the password, please check your email." });
     } catch (err) {

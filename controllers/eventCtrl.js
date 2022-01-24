@@ -3,7 +3,7 @@ const Events = require("../models/eventModel");
 const eventCtrl = {
   getEvent: async (req, res) => {
     try {
-      const event = await Events.findById(req.query.idEvent);
+      const event = await Events.findById(req.body.idEvent);
 
       if (!event) return res.status(400).json({ msg: "Event does not exist." });
 
@@ -134,7 +134,7 @@ const eventCtrl = {
   deleteEvent: async (req, res) => {
     try {
       const deletedEvent = await Events.findOneAndDelete({
-        _id: req.query._idEvent,
+        _id: req.body._idEvent,
       });
 
       res.json({
