@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./database/mongoDB");
+const path = require("path");
 
 const app = express();
 app.use(express.json());
@@ -18,6 +19,13 @@ app.use("/api", require("./router/issueRouter"));
 app.use("/api", require("./router/eventRouter"));
 
 connectDB();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen(port, () => {
   console.log("Server is running on port", port);
