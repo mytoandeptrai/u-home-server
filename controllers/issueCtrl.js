@@ -35,7 +35,7 @@ const issueCtrl = {
   },
   createNewIssue: async (req, res) => {
     try {
-      const { title, description, worker, createdBy } = req.body;
+      const { title, description, worker, createdBy, status } = req.body;
 
       const issue = await Issues.findOne({ title });
 
@@ -48,6 +48,7 @@ const issueCtrl = {
         description,
         worker,
         createdBy,
+        status,
       });
 
       await newIssue.save();
