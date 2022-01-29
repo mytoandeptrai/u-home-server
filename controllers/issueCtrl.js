@@ -16,15 +16,15 @@ const issueCtrl = {
     try {
       const { _limit, _status, _keyword } = req.body;
 
-      if ((!_status || _status.length === 0) && !_keyword) {
+      if (!_status && !_keyword) {
         const issues = await Issues.find().limit(parseInt(_limit));
         res.json(issues);
       } else {
         const issues = await Issues.find(
-          _status.length > 0 && _keyword
-            ? { status: { $in: _status }, title: { $regex: _keyword } }
-            : _status.length > 0
-            ? { status: { $in: _status } }
+          _status && _keyword
+            ? { status: _status, title: { $regex: _keyword } }
+            : _status
+            ? { status: _status }
             : { title: { $regex: _keyword } }
         ).limit(parseInt(_limit));
         res.json(issues);
