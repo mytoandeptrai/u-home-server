@@ -3,7 +3,7 @@ const Events = require("../models/eventModel");
 const eventCtrl = {
   getEvent: async (req, res) => {
     try {
-      const event = await Events.findById(req.body.idEvent);
+      const event = await Events.findById(req.query.idEvent);
 
       if (!event) return res.status(400).json({ msg: "Event does not exist." });
 
@@ -14,16 +14,12 @@ const eventCtrl = {
   },
   getAllEvents: async (req, res) => {
     try {
-      const { _limit, _percentage, _keyword, _startTime, _endTime, _type } =
-        req.body;
-
-      // const query = {
-      //   createdAt: {
-      //     $eq: new Date(_startTime).toISOString(),
-      //   },
-      // };
-      // const test = await Events.find(query);
-      // console.log("🚀 ~ file: eventCtrl.js ~ line 25 ~ getAllEvents: ~ test", test)
+      const _limit = parseInt(req.query._limit) || 12;
+      const _percentage = parseInt(req.query._percentage) || 0;
+      const _keyword = req.query._keyword || "";
+      const _startTime = req.query._startTime || "";
+      const _endTime = req.query._endTime || "";
+      const _type = req.query._type || "";
 
       if (
         _percentage === 0 &&
@@ -180,7 +176,7 @@ const eventCtrl = {
   deleteEvent: async (req, res) => {
     try {
       const deletedEvent = await Events.findOneAndDelete({
-        _id: req.body._idEvent,
+        _id: req.query._idEvent,
       });
 
       res.json({
