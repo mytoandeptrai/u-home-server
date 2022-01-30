@@ -14,38 +14,83 @@ const eventCtrl = {
   },
   getAllEvents: async (req, res) => {
     try {
-      const { _limit, _percentage, _time, _keyword } = req.body;
+      const { _limit, _percentage, _keyword, _startTime, _endTime, _type } =
+        req.body;
 
-      if (!_percentage && !_time && !_keyword) {
+      // const query = {
+      //   createdAt: {
+      //     $eq: new Date(_startTime).toISOString(),
+      //   },
+      // };
+      // const test = await Events.find(query);
+      // console.log("🚀 ~ file: eventCtrl.js ~ line 25 ~ getAllEvents: ~ test", test)
+
+      if (
+        _percentage === 0 &&
+        _startTime === "" &&
+        _endTime === "" &&
+        _keyword === "" &&
+        _type === ""
+      ) {
         const events = await Events.find()
           .limit(parseInt(_limit))
           .sort("-createdAt");
         res.json(events);
       } else {
         const events = await Events.find(
-          _percentage && _keyword
+          _percentage && _keyword && _startTime && _endTime && _type
+            ? {
+                percentSale: { $lte: parseInt(_percentage) },
+                title: { $regex: _keyword },
+                type: _type,
+                createdAt: {
+                  $gte: new Date(_startTime).toISOString(),
+                  $lt: new Date(_endTime).toISOString(),
+                },
+              }
+            : _startTime && _endTime && _startTime !== _endTime
+            ? {
+                createdAt: {
+                  $gte: new Date(_startTime).toISOString(),
+                  $lt: new Date(_endTime).toISOString(),
+                },
+              }
+            : _percentage && _keyword && _type
+            ? {
+                percentSale: { $lte: parseInt(_percentage) },
+                title: { $regex: _keyword },
+                type: _type,
+              }
+            : _percentage && _keyword
             ? {
                 percentSale: { $lte: parseInt(_percentage) },
                 title: { $regex: _keyword },
               }
+            : _percentage && _type
+            ? {
+                percentSale: { $lte: parseInt(_percentage) },
+                type: _type,
+              }
             : _percentage
             ? { percentSale: { $lte: parseInt(_percentage) } }
-            : { title: { $regex: _keyword } }
-        )
-          .limit(parseInt(_limit))
-          .sort({ createdAt: _time ? _time : -1 });
+            : _keyword
+            ? { title: { $regex: _keyword } }
+            : { type: _type }
+        ).limit(parseInt(_limit));
         res.json(events);
       }
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   createNewEvent: async (req, res) => {
     try {
       const {
         title,
         description,
         worker,
+        type,
         createdBy,
         startDate,
         endDate,
@@ -65,6 +110,7 @@ const eventCtrl = {
         title,
         description,
         worker,
+        type,
         createdBy,
         startDate,
         endDate,

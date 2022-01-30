@@ -35,7 +35,7 @@ const issueCtrl = {
   },
   createNewIssue: async (req, res) => {
     try {
-      const { title, description, worker, createdBy, status } = req.body;
+      const { title, location, categories, payment_method, status } = req.body;
 
       const issue = await Issues.findOne({ title });
 
@@ -45,9 +45,9 @@ const issueCtrl = {
 
       const newIssue = new Issues({
         title,
-        description,
-        worker,
-        createdBy,
+        location,
+        categories,
+        payment_method,
         status,
       });
 

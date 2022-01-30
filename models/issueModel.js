@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const issueSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, unique: true },
-    description: String,
-    worker: String,
-    createdBy: String,
-    status: {
+    location: { type: String, required: true },
+    categories: { type: Array, required: true },
+    status: { type: String, default: "system_verifying" },
+    payment_method: {
       type: String,
-      default: "new",
+      default: "cash",
     },
   },
   { timestamps: true }

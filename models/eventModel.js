@@ -5,6 +5,7 @@ const eventSchema = new mongoose.Schema(
     title: String,
     description: String,
     worker: String,
+    type: { type: String, default: "voucher" },
     createdBy: String,
     startDate: String,
     endDate: String,
