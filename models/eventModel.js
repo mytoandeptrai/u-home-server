@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema(
     description: String,
     worker: String,
     type: { type: String, default: "voucher" },
+    status: { type: String, default: "new" },
     createdBy: String,
     startDate: String,
     endDate: String,
@@ -13,6 +14,7 @@ const eventSchema = new mongoose.Schema(
     maxValue: String,
     minValue: String,
     condition: Object,
+    categories: Array,
   },
   { timestamps: true }
 );

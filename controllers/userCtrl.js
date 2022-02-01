@@ -22,11 +22,11 @@ const userCtrl = {
   },
   editUser: async (req, res) => {
     try {
-      const { avatar, username, email, _id } = req.body;
+      const { avatar, username, email, role, _id } = req.body;
 
       const user = await Users.findOneAndUpdate(
         { _id },
-        { username, avatar, email },
+        { username, avatar, email, role },
         { new: true }
       );
 

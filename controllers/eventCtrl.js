@@ -87,6 +87,7 @@ const eventCtrl = {
         description,
         worker,
         type,
+        status,
         createdBy,
         startDate,
         endDate,
@@ -94,6 +95,7 @@ const eventCtrl = {
         maxValue,
         minValue,
         condition,
+        categories,
       } = req.body;
 
       const event = await Events.findOne({ title });
@@ -107,6 +109,7 @@ const eventCtrl = {
         description,
         worker,
         type,
+        status,
         createdBy,
         startDate,
         endDate,
@@ -114,6 +117,7 @@ const eventCtrl = {
         maxValue,
         minValue,
         condition,
+        categories,
       });
 
       await newEvent.save();
@@ -134,6 +138,8 @@ const eventCtrl = {
         title,
         description,
         worker,
+        type,
+        status,
         createdBy,
         startDate,
         endDate,
@@ -141,6 +147,7 @@ const eventCtrl = {
         maxValue,
         minValue,
         condition,
+        categories,
         _idEvent,
       } = req.body;
 
@@ -150,6 +157,8 @@ const eventCtrl = {
           title,
           description,
           worker,
+          type,
+          status,
           createdBy,
           startDate,
           endDate,
@@ -157,6 +166,7 @@ const eventCtrl = {
           maxValue,
           minValue,
           condition,
+          categories,
         },
         {
           new: true,
